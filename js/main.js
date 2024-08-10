@@ -1,17 +1,18 @@
 function minus(params) {
-    const openingAmount = document.getElementById("openingBalance")
-    const op = openingAmount.value
-    const addedFunds = document.getElementById("addfunds").value;
-    let z = Number(addedFunds);
+    // const openingAmount = document.getElementById("openingBalance")
+    // const op = openingAmount.value
+    // const addedFunds = document.getElementById("addfunds").value;
+    // let z = Number(addedFunds);
 
-    let x = Number(op);
+    // let x = Number(op);
     
     let i = Number(params)
-
-    let y = x - i + z
+    console.log(i);
+    
+    // let y = x - i + z
     let a = 80 * i
     
-    document.getElementById("TotalBalance").value = y;
+    // document.getElementById("TotalBalance").value = y;
     document.getElementById("amountininr").value = a;
 }
 
@@ -41,4 +42,20 @@ function TransfAmt(amount){
 // }
 
 
+$(document).ready(function() {
+    $("#selectName").on('change', function() {
+        let countryid = $(this).val();
 
+        $.ajax({
+            url: "phpScript/response.php",
+            method: "POST",
+            data: {
+                id: countryid
+            },
+            success: function(data) {
+                $("#openingBalance").val(data);
+
+            }
+        });
+    });
+})

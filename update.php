@@ -1,4 +1,7 @@
-<?php  include ('phpScript/dbconnect.php')  ?>
+<?php  
+include ('phpScript/dbconnect.php'); 
+session_start(); 
+?>
 
 <!doctype html>
 <html lang="en">
@@ -32,7 +35,6 @@
                     $row = mysqli_fetch_assoc($result);
                     $id = $row['trid'];
                     $fullname = $row['FullName'];
-                    $OpeningBalance = $row['OpeningBalance'];
                     $ClientName = $row['ClientName'];
                     $ClientID = $row['ClientID'];
                     $SentDollar = $row['SentDollar'];
@@ -44,18 +46,12 @@
                     $TransferTo = $row['TransferTo'];
                     $Descrip = $row['Descrip'];
                     $BalanceinINR = $row['BalanceinINR'];
-                    $ClosingBalance = $row['ClosingBalance'];
                     }
                 ?>
                 <div class="col-md-4">
                     <label for="inputName4" class="form-label">Name</label>
                     <input type="text" name="name" class="form-control" value="<?php echo $fullname ?>"
                         id="inputName4">
-                </div>
-                <div class="col-md-4">
-                    <label for="inputRecievedAmount4" class="form-label">Opening Dollar</label>
-                    <input type="text" name="opdollar" class="form-control" value="<?php echo $OpeningBalance ?>"
-                        id="openingBalance">
                 </div>
                 <div class="col-md-4">
                     <label for="" class="form-label">Client Name</label>
@@ -103,11 +99,6 @@
                     <label for="" class="form-label">INR. Balance From Client </label>
                     <input type="number" name="balanceinINR" class="form-control" value="<?php echo $BalanceinINR ?>" id="inrbalance">
                 </div>
-                <div class="col-md-4">
-                    <label for="" class="form-label">Dollar Total Balance </label>
-                    <input type="number" name="totalbalance" class="form-control" value="<?php echo $ClosingBalance ?>" 
-                        id="TotalBalance">
-                </div>
                 <div class="col-12">
                     <button type="submit" name="update" class="btn btn-primary px-4">Update</button>
                 </div>
@@ -132,7 +123,6 @@ if(isset($_POST['update'])){
         echo "<script>alert('Login frist to update the record.')</script>";
     }else {
 $name            = $_POST['name'];
-$opdollar        = $_POST['opdollar'];
 $clientname      = $_POST['clientname'];
 $clientid        = $_POST['clientid'];
 $dollarsent      = $_POST['dollarsent'];
@@ -144,17 +134,15 @@ $amounttrf       = $_POST['amounttrf'];
 $amounttrftoname = $_POST['amounttrftoname'];
 $description     = $_POST['description'];
 $balanceinINR    = $_POST['balanceinINR'];
-$totalbalance    = $_POST['totalbalance'];
 
- if( $name == '' || $opdollar  == '' || $clientname  == '' || $clientid     == '' ||
+ if( $name == ''  || $clientname  == '' || $clientid     == '' ||
   $dollarsent    == ''|| $dsdate    == ''|| $tainINR    == '' || $crfclient   == '' || $clientncrf  == '' || 
-  $amounttrf   == '' || $amounttrftoname == ''|| $description   == ''|| $balanceinINR   == ''|| 
-  $totalbalance  == ''  ){
+  $amounttrf   == '' || $amounttrftoname == ''|| $description   == ''|| $balanceinINR   == '' ){
     echo "<script>alert('All Fields are required')</script>";
  }else{
-        $sql = "UPDATE `transectionrecord` SET FullName = '$name', OpeningBalance = '$opdollar', ClientName = '$clientname', ClientID='$clientid', 
+        $sql = "UPDATE `transectionrecord` SET FullName = '$name', ClientName = '$clientname', ClientID='$clientid', 
         SentDollar='$dollarsent', SentDollarDate='$dsdate', TotalINR=$tainINR, RecCash='$crfclient', CashClientName='$clientncrf', AmountTransfer='$amounttrf', TransferTo='$amounttrftoname', 
-        Descrip='$description', BalanceinINR='$balanceinINR', ClosingBalance='$totalbalance' WHERE TRID = $eid";
+        Descrip='$description', BalanceinINR='$balanceinINR' WHERE TRID = $eid";
 
             $result_query = mysqli_query($conn, $sql);
             if($result_query){

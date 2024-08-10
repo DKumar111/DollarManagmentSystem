@@ -18,15 +18,16 @@
 
     <div class="container-fluid m-auto d-flex justify-content-center align-items-center  mt-5">
         <div class="container d-flex justify-content-center align-items-center ">
-            <form action="login.php" method="POST" class="w-sm-100 w-md-25 w-lg-25  p-4 border rounded shadow">
+            <form action="" method="POST" class="w-sm-100 w-md-25 w-lg-25  p-4 border rounded shadow">
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" name="email" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="email" name="email" title="Enter your email"  required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" name="password" required class="form-control" id="exampleInputPassword1">
+                    <input type="password" name="password" title="Enter your password" required class="form-control" id="exampleInputPassword1">
                 </div>
+                <a style="font-size: 0.8rem;" class="" href="forgotPassword.php">Forgot Password ?</a> <br><br>
                 <button type="submit" name="login" class="btn btn-primary">Submit</button>
             </form>
         </div>
@@ -39,3 +40,48 @@
 </body>
 
 </html>
+
+
+<?php
+
+include ('phpScript/dbconnect.php') ;
+session_start();
+if(isset($_POST['login'])){
+    $useremail = $_POST['email'];
+    $password = $_POST['password'];
+
+    $loginQuery = "SELECT * FROM `useradmin` WHERE email = '$useremail' AND password = '$password'";
+    $result = mysqli_query($conn, $loginQuery);
+    $rowCount = mysqli_num_rows($result);
+    $row_data = mysqli_fetch_assoc($result);
+    $user_id = $row_data['user_id'];
+    $user_name = $row_data['username'];
+    $user_email = $row_data['email'];
+    // $rowData = mysqli_fetch_assoc($rowCount);
+
+
+    if($rowCount>0){
+        $_SESSION['username'] = $user_name;
+        $_SESSION['email'] = $useremail;
+        $_SESSION['user_id'] = $user_id;
+        $_SESSION['login'] = true;
+        // echo $_SESSION['user_id'];
+        if($rowCount==1){
+            // echo "<script>alert('Login successful')</script>";
+            // echo "<script>window.open('form.php','_self')</script>";
+            if(isset($_SESSION['login'])){
+                echo "<script>alert('Login successful')</script>";
+                header("Location: form.php");
+            } 
+        }else{
+            echo "<script>alert('Invalid password')</script>";
+        }
+    }else{
+        echo "<script>alert('Invalid Credentials')</script>";
+        header("Location: index.php");
+
+    }
+}
+
+
+?>

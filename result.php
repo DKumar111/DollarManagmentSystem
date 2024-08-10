@@ -13,14 +13,29 @@ session_start();
     <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+    @media print {
+        #download_Btn {
+            display: none;
+        }
+
+        .searchresult {
+            display: none;
+        }
+
+        .goback {
+            display: none;
+        }
+    }
+    </style>
 </head>
 
 <body>
-    <button class="btn btn-white fw-semibold m-1" onclick="history.back()">Go Back</button>
-    <button class="btn btn-white fw-semibold" id="download_Btn">Download</button>
+    <button class="btn btn-white fw-semibold m-1 goback" onclick="history.back()">Go Back</button>
+    <button class="btn btn-white fw-semibold" id="download_Btn">Print</button>
     <div id="content" class="container-fluid text-center">
         <div class="fs-2 fw-semibold ">
-            <p>Searched Results</p>
+            <p class="searchresult">Searched Results</p>
         </div>
         <?php
 
@@ -37,9 +52,6 @@ if(mysqli_num_rows($result) > 0){
                 <thead class="table-dark">
                     <tr >
                         <th class="align-middle" style="border:1px solid black; padding: 0.5rem; background-color:gray; border-collapse:collapse; color:white; text-align:center;" scope="col">S.No.</th>
-                        <th class="align-middle" style="border:1px solid black; padding: 0.5rem; background-color:gray; border-collapse:collapse; color:white; text-align:center;" scope="col">Name</th>
-                        <th class="align-middle" style="border:1px solid black; padding: 0.5rem; background-color:gray; border-collapse:collapse; color:white; text-align:center;" scope="col">Opening Balance</th>
-                        <th class="align-middle" style="border:1px solid black; padding: 0.5rem; background-color:gray; border-collapse:collapse; color:white; text-align:center;" scope="col">Funds Added</th>
                         <th class="align-middle" style="border:1px solid black; padding: 0.5rem; background-color:gray; border-collapse:collapse; color:white; text-align:center;" scope="col">Client Name</th>
                         <th class="align-middle" style="border:1px solid black; padding: 0.5rem; background-color:gray; border-collapse:collapse; color:white; text-align:center;" scope="col">Client ID</th>
                         <th class="align-middle" style="border:1px solid black; padding: 0.5rem; background-color:gray; border-collapse:collapse; color:white; text-align:center;" scope="col">Dollar Sent</th>
@@ -51,7 +63,6 @@ if(mysqli_num_rows($result) > 0){
                         <th class="align-middle" style="border:1px solid black; padding: 0.5rem; background-color:gray; border-collapse:collapse; color:white; text-align:center;" scope="col">Name</th>
                         <th class="align-middle" style="border:1px solid black; padding: 0.5rem; background-color:gray; border-collapse:collapse; color:white; text-align:center;" scope="col">Description</th>
                         <th class="align-middle" style="border:1px solid black; padding: 0.5rem; background-color:gray; border-collapse:collapse; color:white; text-align:center;" scope="col">Balamce in INR</th>
-                        <th class="align-middle" style="border:1px solid black; padding: 0.5rem; background-color:gray; border-collapse:collapse; color:white; text-align:center;" scope="col">Closing Balance</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,9 +72,6 @@ if(mysqli_num_rows($result) > 0){
         $output.="
       <tr >
                                 <th style='border:1px solid black; padding: 0.5rem; border-collapse:collapse; text-align:center;'>{$number}</th>
-                                <td style='border:1px solid black; padding: 0.5rem; border-collapse:collapse; text-align:center;'>{$row['FullName']}     </td>
-                                <td class='opbalance' style='border:1px solid black; padding: 0.5rem; border-collapse:collapse; text-align:center;'>{$row['OpeningBalance']}     </td>
-                                <td class='AddFunds' style='border:1px solid black; padding: 0.5rem; border-collapse:collapse; text-align:center;'>{$row['AddFunds']}     </td>
                                 <td style='border:1px solid black; padding: 0.5rem; border-collapse:collapse; text-align:center;'>{$row['ClientName']}     </td>
                                 <td style='border:1px solid black; padding: 0.5rem; border-collapse:collapse; text-align:center;'>{$row['ClientID']}     </td>
                                 <td class='senddollar' style='border:1px solid black; padding: 0.5rem; border-collapse:collapse; text-align:center;'>{$row['SentDollar']}     </td>
@@ -75,7 +83,6 @@ if(mysqli_num_rows($result) > 0){
                                 <td style='border:1px solid black; padding: 0.5rem; border-collapse:collapse; text-align:center;'>{$row['TransferTo']}     </td>
                                 <td style='border:1px solid black; padding: 0.5rem; border-collapse:collapse; text-align:center;'>{$row['Descrip']}     </td>
                                 <td class='balanceinr' style='border:1px solid black; padding: 0.5rem; border-collapse:collapse; text-align:center;'>{$row['BalanceinINR']}     </td>
-                                <td class='count-me' style='border:1px solid black; padding: 0.5rem; border-collapse:collapse; text-align:center;'>{$row['ClosingBalance']}     </td>
                             </tr>
                         </tbody>
         ";
@@ -88,9 +95,6 @@ if(mysqli_num_rows($result) > 0){
                     <td class='fw-bold'>Total</td>
                     <td class='fw-bold'></td>
                     <td class='fw-bold'></td>
-                    <td id='val7' class='fw-bold'></td>
-                    <td class='fw-bold'></td>
-                    <td class='fw-bold'></td>
                     <td id='val2' class='fw-bold'></td>
                     <td class='fw-bold'></td>
                     <td id='val4' class='fw-bold'></td>
@@ -100,7 +104,6 @@ if(mysqli_num_rows($result) > 0){
                     <td class='fw-bold'></td>
                     <td class='fw-bold'></td>
                     <td id='val3' class='fw-bold'></td>
-                    <td id='val' class='fw-bold'></td>
                 </tfoot>
                 </tfoot>  
             </table>";
@@ -116,7 +119,7 @@ if(mysqli_num_rows($result) > 0){
     $search = $_GET['searchText'];
     $search_value = trim($search);
 
-$sql = "SELECT *  FROM `transectionrecord` WHERE FullName LIKE '%{$search_value}%' OR ClientName LIKE '%{$search_value}%' OR ClientID LIKE '%{$search_value}%'";
+$sql = "SELECT *  FROM `transectionrecord` WHERE ClientName LIKE '%{$search_value}%' OR ClientID LIKE '%{$search_value}%'";
 
 $result = mysqli_query($conn, $sql) or die("SQL Query failed");
 $output = "";
@@ -125,9 +128,6 @@ if(mysqli_num_rows($result) > 0){
                 <thead class="table-dark">
                     <tr>
                         <th class="align-middle" scope="col ">S.NO.</th>
-                        <th class="align-middle" scope="col ">NAME</th>
-                        <th class="align-middle" scope="col ">OPENING BALANCE</th>
-                        <th class="align-middle" scope="col ">FUNDS ADDED</th>
                         <th class="align-middle" scope="col ">CLIENT NAME</th>
                         <th class="align-middle" scope="col ">CLIENT ID</th>
                         <th class="align-middle" scope="col ">DOLLAR SENT</th>
@@ -139,7 +139,6 @@ if(mysqli_num_rows($result) > 0){
                         <th class="align-middle" scope="col ">NAME</th>
                         <th class="align-middle" scope="col ">DESCRIPTION</th>
                         <th class="align-middle" scope="col ">BALANCE IN INR</th>
-                        <th class="align-middle" scope="col ">CLOSING BALANCE</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -156,9 +155,6 @@ if(mysqli_num_rows($result) > 0){
 
         $output.="<tr>
                                 <th scope='row'>{$number}</th>
-                                <td>{$row['FullName']}     </td>
-                                <td class='opbalance'>{$row['OpeningBalance']}     </td>
-                                <td class='AddFunds'>{$row['AddFunds']}     </td>
                                 <td>{$row['ClientName']}     </td>
                                 <td>{$row['ClientID']}     </td>
                                 <td class='senddollar'>{$row['SentDollar']}     </td>
@@ -170,7 +166,6 @@ if(mysqli_num_rows($result) > 0){
                                 <td>{$row['TransferTo']}     </td>
                                 <td>{$row['Descrip']}     </td>
                                 <td class='balanceinr'>{$row['BalanceinINR']}     </td>
-                                <td class='count-me'>{$row['ClosingBalance']}     </td>
                             </tr>
                             </tbody> 
                            
@@ -183,9 +178,6 @@ if(mysqli_num_rows($result) > 0){
                     <td class='fw-bold'>Total</td>
                     <td class='fw-bold'></td>
                     <td class='fw-bold'></td>
-                    <td id='val7' class='fw-bold'></td>
-                    <td class='fw-bold'></td>
-                    <td class='fw-bold'></td>
                     <td id='val2' class='fw-bold'></td>
                     <td class='fw-bold'></td>
                     <td id='val4' class='fw-bold'></td>
@@ -195,7 +187,6 @@ if(mysqli_num_rows($result) > 0){
                     <td class='fw-bold'></td>
                     <td class='fw-bold'></td>
                     <td id='val3' class='fw-bold'></td>
-                    <td id='val' class='fw-bold'></td>
                 </tfoot>
             </table>";
 
@@ -231,15 +222,6 @@ if(mysqli_num_rows($result) > 0){
 
     // JAVASCRIPT CODE TO FOOTER SUM OF TABLE
 
-    let cell = document.getElementsByClassName("count-me");
-    let val = 0;
-    let i = 0;
-    while (cell[i] != undefined) {
-        val += parseFloat(cell[i].innerHTML);
-        i++;
-    } //end while
-    document.getElementById("val").innerHTML = parseFloat(val).toFixed(2);
-    console.log(parseFloat(val).toFixed(2));
 
 
     let cell2 = document.getElementsByClassName("senddollar");
@@ -296,20 +278,18 @@ if(mysqli_num_rows($result) > 0){
     document.getElementById("val6").innerHTML = parseFloat(val6).toFixed(2);
     console.log(parseFloat(val6).toFixed(2));
 
-    
 
-    
+
+
     let cell7 = document.getElementsByClassName("AddFunds");
     let val7 = 0;
     let o = 0;
     while (cell7[o] != undefined) {
         val7 += parseFloat(cell7[o].innerHTML);
         o++;
-    } 
+    }
     document.getElementById("val7").innerHTML = parseFloat(val7).toFixed(2);
     console.log(parseFloat(val7).toFixed(2));
-    
-
     </script>
 </body>
 

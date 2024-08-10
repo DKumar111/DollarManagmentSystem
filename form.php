@@ -19,28 +19,29 @@ session_start();
     @import url('https://fonts.googleapis.com/css2?family=Playwrite+BE+VLG:wght@100..400&display=swap');
     </style>
     <style>
-        body{
-            background-image: url(https://static.vecteezy.com/system/resources/previews/000/570/746/non_2x/abstract-financial-chart-with-uptrend-line-graph-and-numbers-in-stock-market-on-gradient-white-color-background-vector.jpg);
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
+    body {
+        background-image: url(https://static.vecteezy.com/system/resources/previews/000/570/746/non_2x/abstract-financial-chart-with-uptrend-line-graph-and-numbers-in-stock-market-on-gradient-white-color-background-vector.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 
-        .form-section{
-            background: rgba(255, 255, 255, 0.6)
-        }
+    .form-section {
+        background: rgba(255, 255, 255, 0.6)
+    }
     </style>
 
 </head>
 
-<body >
+<body>
 
     <?php  include ('header_footer/header.php')   ?>
 
     <!-- form section -->
     <div class="container-fluid" style="padding-top: 1rem;">
         <div class="text-center pt-5 fs-1 fw-semibold">
-            <p style="font-family: Playwrite België Vlaams Gewest;" class="jssheading text-black fw-semibold text-uppercase">JSS Dollar
+            <p style="font-family: Playwrite België Vlaams Gewest;"
+                class="jssheading text-black fw-semibold text-uppercase">JSS Dollar
                 Tracking System</p>
         </div>
         <div class="container text-center  py-5">
@@ -49,15 +50,14 @@ session_start();
                 <?php
 
                     if(isset($_SESSION['user_id'])){
-                        $uid = $_POST['user_id'];
-                        $sql = "SELECT * FROM adminuser WHERE user_id = $uid";
+                        $uid = $_SESSION['user_id'];
+                        $sql = "SELECT * FROM `team_member` WHERE team_ID = $uid";
                     $result = mysqli_query($conn, $sql);
                     if(mysqli_num_rows($result)>0){
                         while($row = mysqli_fetch_assoc($result)){
-                            $fname = $row['FirstName'];
-                            $lname = $row['LastName'];
-                            $ReceivedDate = $row['ReceivedDate'];
-                            $TotalAmount = $row['TotalAmount'];
+                            $fname = $row['member_Name'];
+                            // $ReceivedDate = $row['ReceivedDate'];
+                            // $TotalAmount = $row['TotalAmount'];
                         }
                     }
                     $sumsql = "SELECT SUM(SentDollar) AS count FROM transectionrecord";
@@ -65,89 +65,80 @@ session_start();
                     if($sumresult) {
                         $row = mysqli_fetch_assoc($sumresult);
                         $totalsum = $row['count'];
-                        $lastBalance = $TotalAmount - $totalsum;
+                        // $lastBalance = $TotalAmount - $totalsum;
                     }
                     }
                 ?>
-                <div class="col-md-4">
-                    <label for="inputName4" class="form-label">Choose One Option <span class="text-danger fw-bold">*</span></label>
-                    <select class="form-select" name="name" id="selectName"
-                        aria-label="Default select example">
-                        <option selected>Select Option</option>
-                        <?php
-                            $getuser = "SELECT * FROM `team_member`";
-                            $result_query = mysqli_query($conn, $getuser);
-                            while( $row = mysqli_fetch_assoc($result_query)){
-                                $team_id = $row['team_ID'];
-                                $member_name = $row['member_Name'];
-                                echo " <option onclick='getmember(this.value)' value='$member_name'>$member_name</option>";
-                            }
-                        ?>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="inputRecievedAmount4" class="form-label">Opening Dollar <span class="text-danger fw-bold">*</span></label>
+                <!-- <div class="col-md-4">
+                        <label for="" class="form-label text-uppercase">Name <span class="text-danger fw-bold">*</span></label>
+                        <input type="text" name="name" class="form-control" id="">
+                </div> -->
+                <!-- <div class="col-md-4">
+                    <label for="inputRecievedAmount4" class="form-label text-uppercase">Opening Dollar <span class="text-danger fw-bold">*</span></label>
                     <input type="text" name="opdollar" class="form-control "  id="openingBalance">
-                </div>
-                <div class="col-md-4">
-                    <label for="inputAddFunds" class="form-label">Add Funds</label>
+                </div> -->
+                <!-- <div class="col-md-4">
+                    <label for="inputAddFunds" class="form-label text-uppercase">Add Funds</label>
                     <input type="text" name="addfunds" class="form-control"  id="addfunds">
-                </div>
+                </div> -->
                 <div class="col-md-4">
-                    <label for="" class="form-label">Leader Name <span class="text-danger fw-bold">*</span></label>
+                    <label for="" class="form-label text-uppercase">Leader Name <span class="text-danger fw-bold">*</span></label>
                     <input type="text" name="clientname" class="form-control" id="">
                 </div>
                 <div class="col-md-4">
-                    <label for="" class="form-label">ROBO ID <span class="text-danger fw-bold">*</span></label>
+                    <label for="" class="form-label text-uppercase">ROBO ID <span class="text-danger fw-bold">*</span></label>
                     <input type="text" name="clientid" class="form-control" id="">
                 </div>
                 <div class="col-md-4">
-                    <label for="" class="form-label">Dollar Sent <span class="text-danger fw-bold">*</span></label>
+                    <label for="" class="form-label text-uppercase">Dollar Sent <span class="text-danger fw-bold">*</span></label>
                     <input type="text" name="dollarsent" class="form-control" onkeyup="minus(this.value)"
                         id="inputDollarSent">
                 </div>
                 <div class="col-md-4">
-                    <label for="" class="form-label">Date <span class="text-danger fw-bold">*</span></label>
+                    <label for="" class="form-label text-uppercase">Date <span class="text-danger fw-bold">*</span></label>
                     <input type="date" name="dsdate" class="form-control" id="">
                 </div>
                 <div class="col-md-4">
-                    <label for="" class="form-label">Total INR. <span class="text-danger fw-bold">*</span></label>
+                    <label for="" class="form-label text-uppercase">Total INR. <span class="text-danger fw-bold">*</span></label>
                     <input type="number" name="tainINR" class="form-control" id="amountininr">
                 </div>
                 <div class="col-md-4">
-                    <label for="" class="form-label">Total Cash <span class="text-danger fw-bold">*</span></label>
+                    <label for="" class="form-label text-uppercase">Total Cash <span class="text-danger fw-bold">*</span></label>
                     <input type="number" name="crfclient" class="form-control" id="receivedcash">
                 </div>
                 <div class="col-md-4">
-                    <label for="" class="form-label">Cash Revciever <span class="text-danger fw-bold">*</span></label>
+                    <label for="" class="form-label text-uppercase">Cash Revciever <span class="text-danger fw-bold">*</span></label>
                     <input type="text" name="clientncrf" class="form-control" id="">
                 </div>
                 <div class="col-md-4">
-                    <label for="" class="form-label">Account Transfer <span class="text-danger fw-bold">*</span> </label>
+                    <label for="" class="form-label text-uppercase">Account Transfer <span class="text-danger fw-bold">*</span>
+                    </label>
                     <input type="number" name="amounttrf" class="form-control" onkeyup="TransfAmt(this.value)"
                         id="transferamount">
                 </div>
                 <div class="col-md-4">
-                    <label for="" class="form-label">Account Transfer Name <span class="text-danger fw-bold">*</span></label>
+                    <label for="" class="form-label text-uppercase">Account Transfer Name <span
+                            class="text-danger fw-bold">*</span></label>
                     <input type="text" name="amounttrftoname" class="form-control" id="amountTransfer">
                 </div>
                 <div class="col-md-4">
-                    <label for="" class="form-label">Remark <span class="text-danger fw-bold">*</span> </label>
+                    <label for="" class="form-label text-uppercase">Remark <span class="text-danger fw-bold">*</span> </label>
                     <input type="text" name="description" class="form-control" id="">
                 </div>
                 <div class="col-md-4">
-                    <label for="" class="form-label">Total Balance INR. <span class="text-danger fw-bold">*</span> </label>
+                    <label for="" class="form-label text-uppercase">Total Balance INR. <span class="text-danger fw-bold">*</span>
+                    </label>
                     <input type="number" name="balanceinINR" class="form-control" id="inrbalance">
                 </div>
-                <div class="col-md-4">
-                    <label for="" class="form-label">Dollar Balance <span class="text-danger fw-bold">*</span> </label>
+                <!-- <div class="col-md-4">
+                    <label for="" class="form-label text-uppercase">Dollar Balance <span class="text-danger fw-bold">*</span> </label>
                     <input type="number" name="totalbalance" class="form-control" value="" id="TotalBalance">
-                </div>
+                </div> -->
                 <div class="col-3">
                     <input type="reset" class="btn btn-primary shadow px-4" id="refreshpage" value="Reset">
                 </div>
                 <div class="col-12">
-                    <button type="submit" name="save shadow" class="btn btn-primary px-4">Save</button>
+                    <button type="submit" name="save" class="btn btn-primary px-4">Save</button>
                 </div>
             </form>
             <!-- <div class="col-md-4 ms-auto pt-5">
@@ -165,25 +156,6 @@ session_start();
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="js/main.js"></script>
-    <script>
-    $(document).ready(function() {
-        $("#selectName").on('change', function() {
-            let countryid = $(this).val();
-
-            $.ajax({
-                url: "phpScript/response.php",
-                method: "POST",
-                data: {
-                    id: countryid
-                },
-                success: function(data) {
-                    $("#openingBalance").val(data);
-
-                }
-            });
-        });
-    })
-    </script>
 </body>
 
 </html>
@@ -194,11 +166,12 @@ session_start();
 if(isset($_POST['save'])){
     if(!isset($_SESSION['login'])){
         echo "<script>alert('Please login first to insert data')</script>";
+        echo "<script>window.open('index.php', '_self')</script>";
     }else{
          
-    $name           = $_POST['name'];
-    $opdollar        = $_POST['opdollar'];
-    $addfunds        = $_POST['addfunds'];
+    // $name           = $_POST['name'];
+    // $opdollar        = $_POST['opdollar'];
+    // $addfunds        = $_POST['addfunds'];
     $clientname      = $_POST['clientname'];
     $clientid        = $_POST['clientid'];
     $dollarsent      = $_POST['dollarsent'];
@@ -210,19 +183,19 @@ if(isset($_POST['save'])){
     $amounttrftoname = $_POST['amounttrftoname'];
     $description     = $_POST['description'];
     $balanceinINR    = $_POST['balanceinINR'];
-    $totalbalance    = $_POST['totalbalance'];
+    // $totalbalance    = $_POST['totalbalance'];
     
-     if( $name == '' || $opdollar  == '' || $clientname  == '' || $clientid     == '' ||
-      $dollarsent    == ''|| $dsdate    == ''|| $tainINR    == '' || $crfclient   == '' || $clientncrf  == '' || 
-      $amounttrf   == '' || $amounttrftoname == ''|| $description   == ''|| $balanceinINR   == ''|| 
-      $totalbalance  == ''  ){
+     if( $clientname  == '' || $clientid     == '' || $dollarsent    == ''|| $dsdate    == ''
+     || $tainINR    == '' || $crfclient   == '' || $clientncrf  == '' ||  $amounttrf   == '' ||
+      $amounttrftoname == ''|| $description   == ''|| $balanceinINR   == ''
+       ){
         echo "<script>alert('All Fields are required')</script>";
      }else{
-        $sql = "INSERT INTO `transectionrecord`( `FullName`, `OpeningBalance`, `AddFunds`, `ClientName`, `ClientID`, 
+        $sql = "INSERT INTO `transectionrecord`(`ClientName`, `ClientID`, 
         `SentDollar`, `SentDollarDate`, `TotalINR`, `RecCash`, `CashClientName`, `AmountTransfer`, `TransferTo`, 
-        `Descrip`, `BalanceinINR`, `ClosingBalance`) VALUES('$name', '$opdollar', '$addfunds', '$clientname', '$clientid', 
+        `Descrip`, `BalanceinINR`) VALUES('$clientname', '$clientid', 
         '$dollarsent', '$dsdate', '$tainINR', '$crfclient', '$clientncrf', '$amounttrf', '$amounttrftoname', '$description',
-        '$balanceinINR', '$totalbalance')";
+        '$balanceinINR')";
             $result_query = mysqli_query($conn, $sql);
             if($result_query){
                 echo "<script>alert('Successfully Saved')</script>";

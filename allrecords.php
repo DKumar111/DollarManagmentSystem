@@ -74,9 +74,7 @@ session_start();
                 <thead class="table-dark">
                     <tr class="border">
                         <th class="align-middle" scope="col">S.NO.</th>
-                        <th class="align-middle" scope="col">NAME</th>
-                        <th class="align-middle" scope="col">OPENING BALANCE</th>
-                        <th class="align-middle" scope="col">FUNDS ADDED</th>
+                        <!-- <th class="align-middle" scope="col">NAME</th> -->
                         <th class="align-middle" scope="col">CLIENT NAME</th>
                         <th class="align-middle" scope="col">CLIENT ID</th>
                         <th class="align-middle" scope="col">DOLLAR SENT</th>
@@ -88,8 +86,7 @@ session_start();
                         <th class="align-middle" scope="col">NAME</th>
                         <th class="align-middle" scope="col">DESCRIPTION</th>
                         <th class="align-middle" scope="col">BALANCE IN INR</th>
-                        <th class="align-middle" scope="col">CLOSING BALANCE</th>
-                        <th class="align-middle" colspan="2 scope=" col ">ACTION</th>
+                        <th class="align-middle" colspan="2" scope="col" >ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,10 +96,8 @@ session_start();
                         $number = 0;
 
                         while($row = mysqli_fetch_assoc($result)){
-                            $name            = $row['FullName'];
+                            // $name            = $row['FullName'];
                             $TRID            = $row['trid'];
-                            $opdollar        = $row['OpeningBalance'];
-                            $addfunds        = $row['AddFunds'];
                             $clientname      = $row['ClientName'];
                             $clientid        = $row['ClientID'];
                             $dollarsent      = $row['SentDollar'];
@@ -114,14 +109,10 @@ session_start();
                             $amounttrftoname = $row['TransferTo'];
                             $description     = $row['Descrip'];
                             $balanceinINR    = $row['BalanceinINR'];
-                            $totalbalance    = $row['ClosingBalance'];
                             $number++;
                             echo "
                              <tr>
                                 <th scope='row'>$number</th>
-                                <td >$name</td>
-                                <td >$opdollar</td>
-                                <td >$addfunds</td>
                                 <td >$clientname</td>
                                 <td >$clientid</td>
                                 <td >$dollarsent</td>
@@ -133,7 +124,6 @@ session_start();
                                 <td >$amounttrftoname</td>
                                 <td >$description</td>
                                 <td >$balanceinINR</td>
-                                <td >$totalbalance</td>
                                 <td >
                                 <a class='text-success' href='update.php?edtrid=$TRID'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'>
                                       <path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>

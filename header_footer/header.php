@@ -21,6 +21,7 @@
                                <a class="nav-link text-uppercase text-white fw-semibold active" aria-current="page" href="allrecords.php">All Records</a>
                            </li>
                        </ul>
+                       <a class="text-white text-decoration-none fw-semibold pe-4" href="dollarRecieved.php">DOLLAR RECIEVED</a>
                        <!-- Button trigger modal -->
                        <?php
                             if(!isset($_SESSION['login'])){
@@ -32,32 +33,11 @@
                             }else{
                                 echo '
                                 <a href="logout.php" class="btn text-primary rounded-pill text-uppercase fw-semibold bg-white">
-                                    LogOut
+                                  logout
                                 </a>
                                 ';
                             }
                        ?>
-
-                       <!-- Modal -->
-                       <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                           aria-hidden="true">
-                           <div class="modal-dialog">
-                               <div class="modal-content p-3">
-                                   <form action="login.php" method="POST">
-                                       <div class="mb-3">
-                                           <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                           <input type="email" class="form-control" name="email" id="exampleInputEmail1"
-                                               aria-describedby="emailHelp">
-                                       </div>
-                                       <div class="mb-3">
-                                           <label for="exampleInputPassword1" class="form-label">Password</label>
-                                           <input type="password" class="form-control" name="password" id="exampleInputPassword1">
-                                       </div>
-                                       <button type="submit" name="login" class="btn btn-primary">Login</button>
-                                   </form>
-                               </div>
-                           </div>
-                       </div> -->
                    </div>
                </div>
            </nav>
